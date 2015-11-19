@@ -133,28 +133,3 @@ def is_line_in_english(line):
 
 if __name__ == '__main__':
     begin_work()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
