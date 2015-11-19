@@ -12,6 +12,14 @@ like 2 He is a good boy, like he should be.
 .......
 """
 
+TOP_50_PREPOSITIONS = ['with', 'at', 'from', 'into', 'during', 'including', 'until', 'against', 'among', \
+'throughout', 'despite', 'towards', 'upon', 'concerning', 'of', 'to', 'in', 'for', 'on', 'by', 'about', \
+'like', 'through', 'over', 'before', 'between', 'after', 'since', 'without', 'under', 'within', 'along', \
+'following', 'across', 'behind', 'beyound', 'plus', 'but', 'up', 'out', 'around', 'down', 'off', 'above', 'near']
+
+TOP_25_PREPOSITIONS = ['of', 'in', 'to', 'for', 'with', 'on', 'at', 'from', 'by', 'about', 'as', 'into', 'like', \
+'through', 'after', 'over', 'between', 'out', 'against', 'during', 'without', 'before', 'under', 'around', 'among']
+
 def check_arg():
     """
     Check the validity of the system arguments.
@@ -60,8 +68,10 @@ def extract_examps_from_line(line):
     @return: a list containing all the example sents from the line
     @type: list
     """
+    # sentences from a line, in the form of list
+    sents = extract_sents_from_line(line)
+    # TODO implement the logic
 
-    examps = []
     pass
 
 def extract_sents_from_line(line):
@@ -87,6 +97,7 @@ def extract_sents_from_line(line):
 def tokenize_sent(sent):
     """
     Tokenize a sentence, including the punctuations.
+    All tokens have been lowered.
 
     @param: sent sentence to be tokenized
     @type: sent str
@@ -96,13 +107,14 @@ def tokenize_sent(sent):
     """
 
     tokens = []
-
+    lowered_tokens = []
     try:
         tokens = wordpunct_tokenize(sent)
+        lowered_tokens = [x.lower() for x in tokens]
     except:
         pass
 
-    return tokens
+    return lowered_tokens
 
 
 
