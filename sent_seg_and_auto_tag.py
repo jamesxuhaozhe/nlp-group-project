@@ -1,6 +1,7 @@
 from nltk.tokenize import sent_tokenize
 from nltk import wordpunct_tokenize
 import sys
+import csv
 
 """
 1. Detect entences within each line.
@@ -20,6 +21,8 @@ TOP_50_PREPOSITIONS = ['with', 'at', 'from', 'into', 'during', 'including', 'unt
 TOP_25_PREPOSITIONS = ['of', 'in', 'to', 'for', 'with', 'on', 'at', 'from', 'by', 'about', 'as', 'into', 'like', \
 'through', 'after', 'over', 'between', 'out', 'against', 'during', 'without', 'before', 'under', 'around', 'among']
 
+DEFAULT_FILE_NAME = 'examples.csv'
+
 def check_arg():
     """
     Check the validity of the system arguments.
@@ -34,9 +37,31 @@ def begin_work():
     """
     Top level caller function.
     """
-    # TODO implement write to file logic
-    pass
 
+    examps = extract_examps_from_file(sys.argv[1])
+    results = []
+    for examp in examps:
+        for element in examp:
+            results.append(element)
+
+    write_to_final_file(results)
+
+def write_to_final_file(results):
+    """
+    Write the results to final csv file.
+    """
+
+    try:
+        with open(DEFAULT_FILE_NAME, 'w') as csvfile:
+            field_names = ['preposition', 'position', 'sentence']
+            writer = csv.DictWriter(csvfile, fieldnames = field_names)
+            writer.writeheader()
+            for example in results:
+                writer.writerow({'preposition': example.preposition, 'position': \
+                example.position, 'sentence': example.sent})
+    except:
+        print 'Something is wrong'
+        pass
 
 def extract_examps_from_file(file_path):
     """
@@ -53,7 +78,9 @@ def extract_examps_from_file(file_path):
     try:
         with open(file_path, 'r') as f:
             for line in f:
-                examps.append(extract_examps_from_line(line))
+                examps_from_line = extract_examps_from_line(line.strip())
+                if examps_from_line:
+                    examps.append(examps_from_line)
     except IOError:
         print 'Something is wrong.'
         pass
@@ -84,7 +111,7 @@ def extract_examps_from_line(line):
             if sent_token in mem:
                 continue
             mem.add(sent_token)
-            results.append(sent_token + ' ' + str(idx) + ' ' + sent)
+            results.append(Example(sent_token, str(idx), sent))
 
     return results
 
@@ -139,17 +166,20 @@ def tokenize_sent(sent):
 
     return lowered_tokens
 
+class Example(object):
+    """
+    Simple data structure to wrap the example information.
+    """
 
+    preposition = ''
+    position = ''
+    sent = ''
 
+    def __init__(self, prep, pos, sent):
+        self.preposition = prep
+        self.position = pos
+        self.sent = sent
 
-
-
-
-
-
-
-
-
-
-
-
+if __name__ == '__main__':
+    check_arg()
+    begin_work()
