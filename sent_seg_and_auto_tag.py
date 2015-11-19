@@ -34,7 +34,9 @@ def begin_work():
     """
     Top level caller function.
     """
+    # TODO implement write to file logic
     pass
+
 
 def extract_examps_from_file(file_path):
     """
@@ -68,11 +70,32 @@ def extract_examps_from_line(line):
     @return: a list containing all the example sents from the line
     @type: list
     """
+
+    results = []
+    preposition_set = init_preposition_set()
     # sentences from a line, in the form of list
     sents = extract_sents_from_line(line)
-    # TODO implement the logic
+    for sent in sents:
+        sent_tokens = tokenize_sent(sent)
+        mem = set()
+        for idx, sent_token in enumerate(sent_tokens):
+            if sent_token not in preposition_set:
+                continue
+            if sent_token in mem:
+                continue
+            mem.add(sent_token)
+            results.append(sent_token + ' ' + str(idx) + ' ' + sent)
 
-    pass
+    return results
+
+def init_preposition_set():
+    """
+    Initialize the preposition set
+
+    @return: set
+    """
+
+    return set(TOP_50_PREPOSITIONS)
 
 def extract_sents_from_line(line):
     """
@@ -115,25 +138,6 @@ def tokenize_sent(sent):
         pass
 
     return lowered_tokens
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
