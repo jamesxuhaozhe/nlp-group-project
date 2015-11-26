@@ -21,16 +21,14 @@ TOP_50_PREPOSITIONS = ['with', 'at', 'from', 'into', 'during', 'including', 'unt
 TOP_25_PREPOSITIONS = ['of', 'in', 'to', 'for', 'with', 'on', 'at', 'from', 'by', 'about', 'as', 'into', 'like', \
 'through', 'after', 'over', 'between', 'out', 'against', 'during', 'without', 'before', 'under', 'around', 'among']
 
-DEFAULT_FILE_NAME = 'examples.csv'
-
 def check_arg():
     """
     Check the validity of the system arguments.
     """
 
-    if len(sys.argv) != 2:
-        print 'The script you are running should take in 2 arguments.\
-        Should run like this: python script.py whater.data'
+    if len(sys.argv) != 3:
+        print 'The script you are running should take in 3 arguments.\
+        Should run like this: python script.py whater.data results.data'
         sys.exit()
 
 def begin_work():
@@ -52,7 +50,7 @@ def write_to_final_file(results):
     """
 
     try:
-        with open(DEFAULT_FILE_NAME, 'w') as csvfile:
+        with open(sys.argv[2], 'w') as csvfile:
             field_names = ['preposition', 'position', 'sentence']
             writer = csv.DictWriter(csvfile, fieldnames = field_names)
             writer.writeheader()
@@ -122,7 +120,7 @@ def init_preposition_set():
     @return: set
     """
 
-    return set(TOP_50_PREPOSITIONS)
+    return set(TOP_25_PREPOSITIONS)
 
 def extract_sents_from_line(line):
     """
