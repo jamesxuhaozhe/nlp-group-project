@@ -8,8 +8,8 @@ import numpy as np
 
 WINDOW_LENGTH = 2
 
-PREPOSITIONS = {'of':1, 'in':2, 'to':3, 'for':4, 'with':5, 'on':6, 'at':7, 'from':8, 'by':9, 'about':10, 'as':11, 'into':12, 'like':13, \
-'through':14, 'after':15, 'over':16, 'between':17, 'out':18, 'against':19, 'during':20, 'without':21, 'before':22, 'under':23, 'around':24, 'among':25}
+PREPOSITIONS = {'of':0, 'in':1, 'to':2, 'for':3, 'with':4, 'on':5, 'at':6, 'from':7, 'by':8, 'about':9, 'as':10, 'into':11, 'like':12, \
+'through':13, 'after':14, 'over':15, 'between':16, 'out':17, 'against':18, 'during':19, 'without':20, 'before':21, 'under':22, 'around':23, 'among':24}
 
 def check_argv():
     if len(sys.argv) != 4:
@@ -71,6 +71,8 @@ def extract_features_from_examples(examples):
         total_count += 1
         if total_count % 1500 == 0:
             print 'Have processed %d examples.' % total_count
+        if total_count % 100 == 0:
+            print 'Have processed %d examples.' % total_count
     return features
 
 def extract_features_from_example(example):
@@ -92,8 +94,10 @@ def extract_features_from_example(example):
                 pn = True
                 result.append(get_feature_index('PN=' + pair[0].lower()))
         if len(left_window) == 2:
-            result.append(get_feature_index(left_window[0][0].lower() + '-' + left_window[1][0].lower()))
-            result.append(get_feature_index(left_window[0][1] + '-' + left_window[1][1]))
+            result.append(get_feature_index(left_window[0][0].lower() + '-' \
+            + left_window[1][0].lower()))
+            result.append(get_feature_index(left_window[0][1] + '-' + \
+            left_window[1][1]))
     else:
         result.append(get_feature_index('FST'))
 
@@ -103,8 +107,10 @@ def extract_features_from_example(example):
                 fn = True
                 result.append(get_feature_index('FN=' + pair[0].lower()))
         if len(right_window) == 2:
-            result.append(get_feature_index(right_window[0][0].lower() + '-' + right_window[1][0].lower()))
-            result.append(get_feature_index(right_window[0][1] + '-' + right_window[1][1]))
+            result.append(get_feature_index(right_window[0][0].lower() + '-' +\
+            right_window[1][0].lower()))
+            result.append(get_feature_index(right_window[0][1] + '-' + \
+            right_window[1][1]))
     else:
         result.append(get_feature_index('LST'))
 
