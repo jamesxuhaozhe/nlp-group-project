@@ -25,8 +25,18 @@ def start_program():
             continue
         examples = extract_examples_from_sent(sent)
         features = extract_features_from_examples(examples)
+        write_features_into_file(features)
         #TODO create feature file to feed the model
 
+def write_features_into_file(features):
+    """Write features into file."""
+
+    try:
+        with open('app_test.app', 'w') as f:
+            f.write('\n'.join(features))
+    except:
+        print 'Something is wrong when writing into test file.'
+        pass
 
 def extract_examples_from_sent(sent):
     """Extract prep usage example from the sentence."""
